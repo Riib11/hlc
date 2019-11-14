@@ -1,0 +1,3 @@
+structure HLC = struct
+
+end

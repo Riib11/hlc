@@ -1,0 +1,2 @@
+build:
+	ml-build test.cm Main.main main
