@@ -1,5 +1,0 @@
-structure Test = struct
-
-fun test s = "Hello, "^s
-
-end
