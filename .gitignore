@@ -1,4 +1,5 @@
-*.sml~
+*.amd64-darwin
+*~
+
 .cm/
 tmp/
-tmp1/
