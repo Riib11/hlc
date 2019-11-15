@@ -1,0 +1,19 @@
+Executable church_natural := {
+  "constructors"
+  Definition o := { f => x => x }
+  Definition s := { n => f => x => f (n f x) }
+
+  "examples"
+  Definition one   := { s o }
+  Definition two   := { s one }
+  Definition three := { s two }
+
+  "operations"
+  Definition add := { n => m => (n s m) }
+  Definition mul := { n => m => (f => x => n (m f) x) }
+}
+
+Main := {
+  "3 * 2"
+  mul three two
+}

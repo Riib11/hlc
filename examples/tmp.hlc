@@ -1,7 +1,13 @@
-Module tmp := {
+Executable tmp := {
 
-  Definition x := { (true true) }
+  Definition d1 := { +123 }
 
+  Definition d2 := { (false false) }
 
+}
+
+Main := {
+
+  x => x
 
 }

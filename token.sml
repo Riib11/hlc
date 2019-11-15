@@ -33,7 +33,7 @@ val expression_breaks : token list =
 
 (* primitives *)
 			      
-val unit : token = "*"
+val unit : token = "unit"
 
 val true_    : token = "true"
 val false_   : token = "false"
@@ -44,5 +44,9 @@ val negative : char = #"-"
 val positive : char = #"+"
 val signs    : char list =
     [negative, positive]
+	
+(* comments *)
+
+val comment_delimeter : token = "\\\""
 	
 end

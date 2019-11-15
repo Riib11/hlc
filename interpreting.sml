@@ -27,6 +27,10 @@ val interpret : program -> program_context =
 		{ name        = name
 		, definitions = interpretStatements stmts
 		, main        = SOME main }
+	      | Main main =>
+		{ name        = "Main"
+		, definitions = []
+		, main        = SOME main }
     in
 	interpret' empty_program_context
     end

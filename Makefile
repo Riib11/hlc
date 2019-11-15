@@ -15,3 +15,6 @@ run-test:
 	sml @SMLload test.amd64-darwin $(source)
 
 test: build-test run-test
+
+load:
+	sml utilities.sml token.sml integer.sml

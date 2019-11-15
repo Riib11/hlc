@@ -9,6 +9,7 @@ type name = token
 datatype program
   = Module of name * statement list
   | Executable of name * statement list * expression
+  | Main of expression
 
 and statement
     = Definition of name * expression
@@ -31,17 +32,22 @@ fun string_of_program (prgm : program) : string =
 	Module (name, stmts) =>
 	unlines (
 	    [ unwords [ Token.module_header, name,
-			Token.assignment, Token.block_open ] ] @
+			Token.block_open ] ] @
 	    map string_of_statement stmts @
 	    [ Token.block_close ] )
       | Executable (name, stmts, main) =>
 	unlines (
-	    [unwords [ Token.executable_header, name,
-		       Token.assignment, Token.block_open]] @
+	    [ unwords [ Token.executable_header, name,
+			Token.block_open ] ] @
 	    map string_of_statement stmts @
-	    [ Token.block_close ] @
-	    [ unwords [ Token.main_header, Token.assignment,
-			string_of_expression main ] ] )
+	    [ Token.block_close,
+	      string_of_main main ] )
+      | Main main => string_of_main main
+
+and string_of_main (main : expression) : string =
+    unwords [ Token.main_header, Token.block_open,
+	      string_of_expression main,
+	      Token.block_close ]
 		
 and string_of_statement (stmt : statement) : string =
     case stmt of
@@ -51,30 +57,25 @@ and string_of_statement (stmt : statement) : string =
 	      Token.assignment, Token.block_open,
 	      string_of_expression expr,
 	      Token.block_close ] )
-	    
+		
 and string_of_expression (expr : expression) : string =
     case expr of
-	Primitive prim =>
-	string_of_primitive prim
+	Primitive prim => string_of_primitive prim
       | Variable x => x
-      | Lambda (x, e) =>
-	unwords (
-	    [ Token.assoc_open,
-	      x, string_of_expression e,
-	      Token.assoc_close ] )
-      | Application (e1, e2) =>
-	unwords (
-	    [ Token.assoc_open,
-	      string_of_expression e1,
-	      string_of_expression e2,
-	      Token.assoc_close ] )
-      | Binding (x, e1, e2) =>
-	unwords (
-	    [ x, Token.assignment,
-	      string_of_expression e1,
-	      Token.semicolon,
-	      string_of_expression e2 ] )
-
+      | Lambda (x, e) => (
+	  Token.assoc_open^x^" "^Token.mapping^" "^
+	  string_of_expression e^Token.assoc_close)
+      | Application (e1, e2) => (
+	  Token.assoc_open^
+	  string_of_expression e1^" "^
+	  string_of_expression e2^
+	  Token.assoc_close)
+      | Binding (x, e1, e2) => (
+	  x^" "^Token.assignment^" "^
+	  string_of_expression e1^" "^
+	  Token.semicolon^" "^
+	  string_of_expression e2)
+	
 and string_of_primitive (prim : primitive) : string =
     case prim of
 	Unit      => Token.unit

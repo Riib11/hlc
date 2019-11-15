@@ -7,15 +7,17 @@ exception Malformed_integer of string
 fun is_int (s : string) : bool =
     case String.explode s of
 	[] => false
-      | (s::ds) =>
+      | s::ds =>
 	contains s Token.signs andalso
+	(not o null) ds andalso
 	List.all Char.isDigit ds
 
 fun read_int (s : string) : int =
     case String.explode s of
 	[] => raise (Malformed_integer s)
       | (sn::ds) =>
-	let val multiplier = 
+	let
+	    val multiplier = 
 		if sn = Token.positive then 1 else
 		if sn = Token.negative then ~1
 		else raise (Malformed_integer s)

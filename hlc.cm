@@ -4,6 +4,7 @@ main.sml
 test.sml
 
 debug.sml
+expanding.sml
 fileio.sml
 grammar.sml
 hlc.sml
